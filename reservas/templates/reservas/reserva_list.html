@@ -1,0 +1,13 @@
+{% extends 'core/base.html' %}
+{% block title %}Reserva List{% endblock %}
+{% block content %}
+<h1>Reservas</h1>
+<ul>
+{% for reserva in object_list %}
+    <li>{{ reserva }} </li>
+{% empty %}
+    <li>No articles yet.</li>
+{% endfor %}
+</ul>
+
+{% endblock %}

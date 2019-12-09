@@ -1,0 +1,43 @@
+{% extends 'core/base.html'%}
+
+{% block title %}Canchas{% endblock %}
+{% block styles %}{% load static %} <link rel="stylesheet" type="text/css" href="{% static 'canchas/css/canchas_list.css' %}">{% endblock %}
+
+{% block content %}
+
+   <h1>Canchas</h1>
+    <table>
+        <tr>
+            <th>#Cancha</th>
+            <th>Tipo</th> 
+            <th>Vestuario</th>
+            <th>Iluminacion</th>
+            <th>Cesped Sintetico</th>
+        </tr>
+    {% for cancha in cancha_list %}
+        <tr>
+            <td><a href="{% url 'canchas:detail' cancha.id %}">{{cancha}}</a></td>
+            <td>{{cancha.tipo}}</td>
+            <td>{% if "Vestuario" in cancha.servicios %}SI{% else %}NO{% endif %}</td>
+            <td>{% if "Iluminacion" in cancha.servicios %}SI{% else %}NO{% endif %}</td>
+            <td>{% if "Cesped Sintetico" in cancha.servicios %}SI{% else %}NO{% endif %}</td>
+        </tr>
+    {% empty %}
+        <tr>
+            <td>Sin Registros</td>
+        </tr>
+    {% endfor %}
+    </table>
+    <h4>Filtros</h4>
+    <form method="get">
+        <input type="checkbox" name="servicios" value="Vestuario">Vestuario
+        <br>
+        <input type="checkbox" name="servicios" value="Iluminacion">Iluminacion
+        <br>
+        <input type="checkbox" name="servicios" value="Cesped Sintetico">Cesped Sintetico
+        <br>
+        <input type="checkbox" name="nada" value="True">Sin Filtros
+        <br><br>
+        <input type="submit" value="Aplicar" >
+    </form>
+{% endblock %}

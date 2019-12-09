@@ -1,0 +1,45 @@
+{% extends 'core/base.html'%}
+
+{% block title %}Cancha{% endblock %}
+{% block styles %}{% load static %} <link rel="stylesheet" type="text/css" href="{% static 'canchas/css/canchas_list.css' %}">{% endblock %}
+
+{% block content %}
+     {% if 'ok' in request.GET %}
+        <p style="color:green;"> 
+            Reserva editada correctamente.
+        </p>
+    {% endif %}
+    {% if 'ok_delete' in request.GET %}
+        <p style="color:orange;"> 
+            Reserva borrada correctamente.
+        </p>
+    {% endif %}
+    
+    <h1>Cancha: {{ cancha }}</h1>
+    <p>Tipo: {{ cancha.tipo }}</p>
+    <p>Servicios: {{ cancha.servicios }}</p>
+
+    <h4>Ultimas 20 reservas:</h4>
+    <table>
+        <tr>
+            <th>Fecha y Hora</th>
+            <th>Cliente</th>
+            <th>Actions</th>
+        </tr>
+    {% for reserva in cancha.reserva_set.all|dictsortreversed:"creacion"|slice:":20" %}
+        <tr>
+            <td><a href="{% url 'reservas:update' reserva.id %}">{{reserva.fecha_hs|date:"SHORT_DATETIME_FORMAT"}}</a></td>
+            <td>{{reserva.cliente}}</td>
+            <td><a href="{% url 'reservas:delete' reserva.id %}" style="color:red;">Eliminar</a></td>
+        </tr>
+    {% empty %}
+        <tr>
+            <td>--Sin Reservas--</td>
+        </tr>
+    {% endfor %}
+    </table>
+
+    <a href="{% url 'reservas:create' %}">+ Crear Reserva +<a>
+
+{% endblock %}
+
